@@ -12,8 +12,8 @@ Util Collection - to be continued ...
 Some useful Mixins...
 Use it in conjunction with
 
-* [literate-programming](http://npmjs.org/packages/literate-programming "click for npm-package-homepage") to write markdown-flavored literate JS, HTML and CSS
-* [jspm](https://www.npmjs.com/package/jspm "click for npm-package-homepage") for a nice solution to handle npm-modules with ES6-Module-Format-Loading ...
+    * [literate-programming](http://npmjs.org/packages/literate-programming "click for npm-package-homepage") to write markdown-flavored literate JS, HTML and CSS
+    * [jspm](https://www.npmjs.com/package/jspm "click for npm-package-homepage") for a nice solution to handle npm-modules with ES6-Module-Format-Loading ...
 
 ## Files
 
@@ -84,7 +84,24 @@ export class TypeCheckUtil {
         return (foo == false || foo instanceof Error);
     }
 }
+
+export class ArrayUtil {
+    setArray (srcProp, arr, measureO) {
+        let _arr = arr.filter((newItem) => {
+            return !this[srcProp].filter((currentItem) => {
+                let truthy = true;
+                Object.keys(measureO).forEach((prop) => {
+                    truthy &= (newItem[prop] === currentItem[prop]);
+                });
+                return !!truthy;
+            }).length;
+        });
+        this[srcProp].concat(_arr);
+        return !!_arr.length;
+    }
+}
 ```
 ## CHANGELOG
 
+*0.1.1* ArrayUtil.setArray
 *0.1.0* Basic Migration to Util Classes/Mixins
