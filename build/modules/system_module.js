@@ -56,4 +56,20 @@ export let TypeCheckUtil = class TypeCheckUtil {
     }
 };
 
+export let ArrayUtil = class ArrayUtil {
+    setArray(srcProp, arr, measureO) {
+        let _arr = arr.filter(newItem => {
+            return !this[srcProp].filter(currentItem => {
+                let truthy = true;
+                Object.keys(measureO).forEach(prop => {
+                    truthy &= newItem[prop] === currentItem[prop];
+                });
+                return !!truthy;
+            }).length;
+        });
+        this[srcProp].concat(_arr);
+        return !!_arr.length;
+    }
+};
+
 //# sourceMappingURL=system_module.js.map

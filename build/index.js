@@ -1,7 +1,7 @@
 export class NumberUtil {
     get _random () {
         return (Math.random() / (this._constructed || new Date().getTime())).toString(36).slice(-7);
-	}
+    }
 }
 
 export class TimeUtil {
@@ -56,5 +56,21 @@ export class TypeCheckUtil {
     }
     _isFalsy (foo) {
         return (foo == false || foo instanceof Error);
+    }
+}
+
+export class ArrayUtil {
+    setArray (srcProp, arr, measureO) {
+        let _arr = arr.filter((newItem) => {
+            return !this[srcProp].filter((currentItem) => {
+                let truthy = true;
+                Object.keys(measureO).forEach((prop) => {
+                    truthy &= (newItem[prop] === currentItem[prop]);
+                });
+                return !!truthy;
+            }).length;
+        });
+        this[srcProp].concat(_arr);
+        return !!_arr.length;
     }
 }
