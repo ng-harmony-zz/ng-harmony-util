@@ -28,15 +28,15 @@ export let AsyncUtil = class AsyncUtil {
         return new Promise((resolve, reject) => {
             this._validate(fn.bind(ctx, ...args)).then((...args) => {
                 if (args[0] && typeof args[0].then === "function") {
-                    args[0].then(resolve.bind(ctx)).catch(reject.bind(ctx));
+                    args[0].then(resolve).catch(reject);
                 } else {
-                    if (args.length > 1 || args[0] && !(args[0] instanceof Error)) {
-                        resolve.call(ctx, ...args);
+                    if (args[0] && args[0] instanceof Error) {
+                        reject(...args);
                     } else {
-                        reject.call(ctx, ...(args || null));
+                        resolve(...(args || null));
                     }
                 }
-            });
+            }).catch(reject);
         });
     }
 };

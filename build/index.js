@@ -1,7 +1,7 @@
 export class NumberUtil {
     get _random () {
         return (Math.random() / (this._constructed || new Date().getTime())).toString(36).slice(-7);
-    }
+	}
 }
 
 export class TimeUtil {
@@ -30,16 +30,17 @@ export class AsyncUtil {
 				.then((...args) => {
 					if (args[0] && typeof args[0].then === "function") {
 						args[0]
-							.then(resolve.bind(ctx))
-							.catch(reject.bind(ctx));
+							.then(resolve)
+							.catch(reject);
 					} else {
-						if (args.length > 1 || (args[0] && !(args[0] instanceof Error))) {
-							resolve.call(ctx, ...args);
+						if ((args[0] && (args[0] instanceof Error))) {
+							reject(...args);
 						} else {
-							reject.call(ctx, ...args || null);
+							resolve(...args || null);
 						}
 					}
-				});
+				})
+                .catch(reject);
 		});
 	}
 }
